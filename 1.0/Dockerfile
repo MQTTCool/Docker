@@ -1,7 +1,7 @@
 # Set the base image
 FROM openjdk:8-jre-alpine
 
-MAINTAINER MQTT.Cool Development Team <support@lightstreamer.com>
+LABEL maintainer="MAINTAINER MQTT.Cool Development Team <support@lightstreamer.com>"
 
 # Set environment variables to identify the right Lightstreamer version and edition
 ENV MQTTCOOL_VERSION 1_0_3_b1_20170929
@@ -35,7 +35,8 @@ RUN set -x \
 # Finally, adjust logging configurations to log only on standard output.
         && sed -i -e '123,$s/<appender-ref ref="LSDailyRolling" \/>/<appender-ref ref="LSConsole" \/>/' \
                   -e '/<appender-ref ref="LSDailyRolling" \/>/ d' conf/lightstreamer_log_conf.xml \
-        && sed -i -e '67,$s/<appender-ref ref="MQTTCoolRolling" \/>/<appender-ref ref="LSConsole" \/>/' mqtt_connectors/mqtt_master_connector_log_conf.xml
+        && sed -i -e '67,$s/<appender-ref ref="MQTTCoolRolling" \/>/<appender-ref ref="LSConsole" \/>/' mqtt_connectors/mqtt_master_connector_log_conf.xml \
+        && apk del gnupg tar openssl
 
 # Export TCP port 8080
 EXPOSE 8080
