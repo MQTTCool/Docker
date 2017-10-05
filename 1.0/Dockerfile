@@ -13,7 +13,7 @@ WORKDIR /mqtt.cool
 RUN set -x \
        apk add update \
 
-# Install required packages
+# Install the required packages
         && apk add --no-cache --virtual .fetch-deps \
                 gnupg \
                 tar \
