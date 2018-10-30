@@ -7,15 +7,13 @@ LABEL maintainer="Lightstreamer Server Development Team <support@lightstreamer.c
 ENV MQTTCOOL_VERSION 1_1_0_20180330
 ENV MQTTCOOL_URL_DOWNLOAD http://www.lightstreamer.com/repo/distros/mqtt.cool_${MQTTCOOL_VERSION}.tar.gz
 
-# Set the temporary working dir
-WORKDIR /mqtt.cool
-
 # Install the required packages
 RUN set -ex; \
-        apk add --no-cache --virtual .deps \
-                   gnupg \
-                   tar \
-                   curl \
+        mkdir /mqtt.cool && cd /mqtt.cool \
+        && apk add --no-cache --virtual .deps \
+                      gnupg \
+                      tar \
+                      curl \
 # Import Lighstreamer's public key
         && gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 9B90BFD14309C7DA5EF58D7D4A8C08966F29B4D2 \
 # Download the distribution from the Lightstreamer site, verify the signature, and unpack
@@ -26,10 +24,11 @@ RUN set -ex; \
 # Replace the fictitious jdk path with the JAVA_HOME environment variable in the launch script file
         && sed -i -- 's/\/usr\/jdk1.8.0/$JAVA_HOME/' bin/unix-like/mc.sh \
 # Addjust logging configurations in order to log only on standard output
-        && sed -i -e '123,$s/<appender-ref ref="LSDailyRolling" \/>/<appender-ref ref="LSConsole" \/>/' \
-                  -e '/<appender-ref ref="LSDailyRolling" \/>/ d' conf/lightstreamer_log_conf.xml \
-        && sed -i -e '67,$s/<appender-ref ref="MQTTCoolRolling" \/>/<appender-ref ref="LSConsole" \/>/' mqtt_connectors/mqtt_master_connector_log_conf.xml \
-
+&& sed -i -e 's/<appender-ref ref="LSDailyRolling" \/>/<appender-ref ref="LSConsole" \/>/' \
+                  -e '/<logger name="LightstreamerLogger.init/,+2s/<appender-ref ref="LSConsole" \/>/<!-- <appender-ref ref="LSConsole" \/> -->/' \
+                  -e '/<logger name="LightstreamerLogger.license/,+2s/<appender-ref ref="LSConsole" \/>/<!-- <appender-ref ref="LSConsole" \/> -->/' \
+                  conf/lightstreamer_log_conf.xml \
+        && sed -i 's/<appender-ref ref="MQTTCoolRolling" \/>/<appender-ref ref="LSConsole" \/>/' mqtt_connectors/mqtt_master_connector_log_conf.xml \
 # Finally, remove no longer needed packages and files
         && apk del .deps \
         && rm mqtt.cool.tar.gz mqtt.cool.tar.gz.asc
