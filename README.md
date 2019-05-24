@@ -77,3 +77,7 @@ $ docker run --name mc-server -v /path/to/custom/pages:/mqtt.cool/pages -d -p 80
 ```
 
 where `/path/to/custom/pages` is the path in your host machine containing the replacing web content files.
+
+## License
+
+View [license information](https://get.mqtt.cool/server/1.1.0/Lightstreamer+Software+License+Agreement.pdf) for the software contained in this image.
