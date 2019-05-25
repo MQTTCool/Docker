@@ -13,10 +13,10 @@ For more information and related downloads for the MQTT.Cool server and MQTT.Coo
 Launch the container with the default configuration:
 
 ```console
-$ docker run --name mc-server -d -p 80:8080 mqttcool/mqtt.cool
+$ docker run --name mc-server -d -p 8080:8080 mqttcool/mqtt.cool
 ```
 
-This will map port 8080 inside the container to port 80 on local host. Then point your browser to `http://localhost` and watch the Welcome page from which you can launch the Test Client, a handy tool for testing the interaction between the MQTT.Cool server and any external MQTT broker.
+This will map port 8080 inside the container to port 8080 on local host. Then point your browser to `http://localhost` and watch the Welcome page from which you can launch the Test Client, a handy tool for testing the interaction between the MQTT.Cool server and any external MQTT broker.
 
 Furthermore, you can be redirected to the source code examples available on [GitHub](http://github.com/MQTTCool).
 
