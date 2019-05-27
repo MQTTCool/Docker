@@ -25,20 +25,20 @@ Furthermore, you can be redirected to the source code examples available on [Git
 It is possible to customize each aspect of the MQTT.Cool instance running into the container. For example, a specific configuration file may be supplied as follows:
 
 ```console
-$ docker run --name mc-server -v /path/to/my-mqtt_master_connector_conf.xml:/mqtt.cool/mqtt_connectors/mqtt_master_connector_conf.xml -d -p 80:8080 mqttcool/mqtt.cool
+$ docker run --name mc-server -v /path/to/my-mqtt_master_connector_conf.xml:/mqtt.cool/mqtt_connectors/mqtt_master_connector_conf.xml -d -p 8080:8080 mqttcool/mqtt.cool
 
 ```
 
 In the same way, you could provide a custom logging configuration, maybe in this case also specifying a dedicated volume to ensure both the persistence of log files and better performance of the container:
 
 ```console
-$ docker run --name mc-server -v /path/to/my-mqtt_master_connector_log_conf.xml:/mqtt.cool/mqtt_connectors/mqtt_master_connector_conf.xml -v /path/to/logs:/mqtt.cool/logs -d -p 80:8080 mqttcool/mqtt.cool
+$ docker run --name mc-server -v /path/to/my-mqtt_master_connector_log_conf.xml:/mqtt.cool/mqtt_connectors/mqtt_master_connector_conf.xml -v /path/to/logs:/mqtt.cool/logs -d -p 8080:8080 mqttcool/mqtt.cool
 ```
 
 If you also change in your `my-mqtt_master_connector_log_conf.xml` file the default logging path from `../logs` to `/path/to/dest/logs`:
 
 ```console
-$ docker run --name mc-server -v /path/to/my-mqtt_master_connector_log_conf.xml:/mqtt.cool/mqtt_connectors/mqtt_master_connector_conf.xml -v /path/to/hosted/logs:/path/to/dest/logs -d -p 80:8080 mqttcool/mqtt.cool
+$ docker run --name mc-server -v /path/to/my-mqtt_master_connector_log_conf.xml:/mqtt.cool/mqtt_connectors/mqtt_master_connector_conf.xml -v /path/to/hosted/logs:/path/to/dest/logs -d -p 8080:8080 mqttcool/mqtt.cool
 
 ```
 
@@ -61,7 +61,7 @@ $ docker build -t my-mqttcool .
 the new image will be built along with the provided files. After that, launch the container:
 
 ```console
-$ docker run --name mc-server -d -p 80:8080 my-mqttcool
+$ docker run --name mc-server -d -p 8080:8080 my-mqttcool
 ```
 
 To get more detailed information on how to configure the MQTT.Cool server, please see the inline documentation in the `mqtt_master_connector_conf.xml` and `mqtt_master_connector_log_conf.xml` files you can find under the `mqtt_connectors` folder of the installation directory.
@@ -73,7 +73,7 @@ There might be some circumstances where you would like to provide custom pages f
 For example, with the following command you will be able to fully replace the factory `pages` folder:
 
 ```console
-$ docker run --name mc-server -v /path/to/custom/pages:/mqtt.cool/pages -d -p 80:8080 mqttcool/mqtt.cool
+$ docker run --name mc-server -v /path/to/custom/pages:/mqtt.cool/pages -d -p 8080:8080 mqttcool/mqtt.cool
 ```
 
 where `/path/to/custom/pages` is the path in your host machine containing the replacing web content files.
