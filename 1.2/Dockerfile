@@ -1,5 +1,5 @@
 # Set the base image
-FROM openjdk:11-jre-slim-stretch
+FROM openjdk:11-jdk-slim-stretch
 
 LABEL maintainer="MQTT.Cool Server Development Team <support@mqtt.cool>"
 
@@ -29,9 +29,16 @@ RUN set -ex; \
                   -e '/<logger name="LightstreamerLogger.license/,+2s/<appender-ref ref="LSConsole" \/>/<!-- <appender-ref ref="LSConsole" \/> -->/' \
                   conf/lightstreamer_log_conf.xml \
         && sed -i 's/<appender-ref ref="MQTTCoolRolling" \/>/<appender-ref ref="LSConsole" \/>/' mqtt_connectors/mqtt_master_connector_log_conf.xml \
+# Add new user and group
+        && groupadd -r -g 10000 mqttcool \
+        && useradd --no-log-init -r -g mqttcool -u 10000 mqttcool \
+# Change ownership of tye mqtt.cool folder
+        && chown -R mqttcool:mqttcool ../mqtt.cool \
 # Finally, remove no longer needed files
         && rm mqtt.cool.tar.gz mqtt.cool.tar.gz.asc \
         && apt-get remove -y gnupg dirmngr curl
+
+USER mqttcool
 
 # Export TCP port 8080
 EXPOSE 8080
