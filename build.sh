@@ -2,7 +2,7 @@
 VERSION=$1
 
 if [ -z "$VERSION" ]; then
-    echo "Pleasy specify a version"
+    echo "Please specify a version"
     exit 1
 fi
 
